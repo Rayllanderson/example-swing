@@ -21,6 +21,13 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public User(Long id, String name, String email, Gender gender) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+    }
+
     public Long getId() {
         return id;
     }

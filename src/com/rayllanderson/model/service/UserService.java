@@ -16,4 +16,8 @@ public class UserService {
     public static List<User> getAll(){
         return users;
     }
+
+    public boolean deleteById(Long id){
+        return users.removeIf(u -> u.getId().equals(id));
+    }
 }
