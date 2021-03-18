@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.rayllanderson.model.view;
+package com.rayllanderson.view;
 
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.Gender;
 import com.rayllanderson.model.service.UserService;
+import com.rayllanderson.model.utils.Assert;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -91,15 +89,10 @@ public class RegisterView extends javax.swing.JFrame {
         btnSave.setText("Salvar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnSaveActionPerformed();
             }
         });
 
-        textEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textEmailActionPerformed(evt);
-            }
-        });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Email");
@@ -139,21 +132,26 @@ public class RegisterView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // codigos acima gerados pela IDE
+
+
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new MainView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void textEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textEmailActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String name = textName.getText();
-        String email = textEmail.getText();
-        String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
-        User user = new User(name, email, Gender.valueOf(sex.toUpperCase()));
-        addUserToTable(user);
+    private void btnSaveActionPerformed() {//GEN-FIRST:event_btnSaveActionPerformed
+       try {
+           String name = textName.getText();
+           String email = textEmail.getText();
+           String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
+           User user = new User(name, email, Gender.valueOf(sex.toUpperCase()));
+           validateFields(user);
+           addUserToTable(user);
+       }catch (IllegalArgumentException e){
+           JOptionPane.showMessageDialog(null, e.getMessage(),
+                   "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+       }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void addUserToTable(User user) {
@@ -165,6 +163,11 @@ public class RegisterView extends javax.swing.JFrame {
         UserService.getAll().forEach(x -> tableModel.addRow(new Object[]{x.getName(), x.getEmail(), x.getGender()}));
     }
 
+    private void validateFields(User user){
+        Assert.notNull(user.getName(), "Nome");
+        Assert.notNull(user.getEmail(), "Email");
+        Assert.notNull(user.getGender().toString(), "Sexo");
+    }
 
 
     /**
