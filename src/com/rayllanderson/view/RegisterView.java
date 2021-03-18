@@ -22,7 +22,7 @@ import java.util.Objects;
 public class RegisterView extends javax.swing.JFrame {
 
     private UserService userService;
-    private DefaultTableModel tableModel;
+    private DefaultTableModel model;
 
     /**
      * Creates new form ViewPrincipal
@@ -30,9 +30,8 @@ public class RegisterView extends javax.swing.JFrame {
     public RegisterView() {
         initComponents();
         this.userService = new UserService();
-        this.tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"ID", "Name", "Email", "Sexo"});
-        userTable.setModel(tableModel);
+        model = createTableModal();
+        userTable.setModel(model);
         updateTable();
     }
 
@@ -222,7 +221,15 @@ public class RegisterView extends javax.swing.JFrame {
             new String [] {
                 "ID", "Name", "Email", "Sexo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(userTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -276,6 +283,19 @@ public class RegisterView extends javax.swing.JFrame {
 
     // codigos acima gerados pela IDE
 
+    private DefaultTableModel createTableModal(){
+        DefaultTableModel model = new DefaultTableModel() {
+            boolean[] canEdit = new boolean [] {
+                    false, true, true, true
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+        model.setColumnIdentifiers(new String[]{"ID", "Name", "Email", "Sexo"});
+        return model;
+    }
+
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new MainView().setVisible(true);
@@ -290,6 +310,7 @@ public class RegisterView extends javax.swing.JFrame {
            User user = new User(Generate.id(), name, email, Gender.valueOf(sex.toUpperCase()));
            validateFields(user);
            addUserToTable(user);
+           clearValues();
        }catch (IllegalArgumentException e){
            JOptionPane.showMessageDialog(null, e.getMessage(),
                    "Campos Vazios", JOptionPane.WARNING_MESSAGE);
@@ -298,12 +319,15 @@ public class RegisterView extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = userTable.getSelectedRow();
-        Long id = Long.valueOf(userTable.getModel().getValueAt(row, 0).toString());
-        if (userService.deleteById(id))
-            updateTable();
-        else
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover",
-                    "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+        try {
+            Long id = Long.valueOf(userTable.getModel().getValueAt(row, 0).toString());
+            if (userService.deleteById(id))
+                updateTable();
+            else
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "O id não é válido", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -316,8 +340,7 @@ public class RegisterView extends javax.swing.JFrame {
     }
 
     private void updateTable() {
-        DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[]{"ID", "Name", "Email", "Sexo"});
+        model = createTableModal();
         UserService.getAll().forEach(x -> model.addRow(new Object[]{x.getId(), x.getName(), x.getEmail(), x.getGender()}));
         userTable.setModel(model);
     }
@@ -326,6 +349,12 @@ public class RegisterView extends javax.swing.JFrame {
         Assert.notNull(user.getName(), "Nome");
         Assert.notNull(user.getEmail(), "Email");
         Assert.notNull(user.getGender().toString(), "Sexo");
+    }
+
+    private void clearValues(){
+        this.textName.setText("");
+        this.textEmail.setText("");
+        this.genderBox.setSelectedIndex(0);
     }
 
 
