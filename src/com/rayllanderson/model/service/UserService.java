@@ -9,7 +9,7 @@ public class UserService {
 
     private static List<User> users = new ArrayList<>();
 
-    public void add(User user){
+    public void save(User user){
         users.add(user);
     }
 
@@ -19,5 +19,10 @@ public class UserService {
 
     public boolean deleteById(Long id){
         return users.removeIf(u -> u.getId().equals(id));
+    }
+
+    public void update(User user) {
+        deleteById(user.getId());
+        this.save(user);
     }
 }

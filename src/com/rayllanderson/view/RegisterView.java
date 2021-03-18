@@ -13,6 +13,7 @@ import com.rayllanderson.model.utils.Generate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.View;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class RegisterView extends javax.swing.JFrame {
     public RegisterView() {
         initComponents();
         this.userService = new UserService();
-        model = createTableModal();
+        model = ViewUtil.createTableModal();
         userTable.setModel(model);
         updateTable();
     }
@@ -230,6 +231,11 @@ public class RegisterView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        userTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(userTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -283,32 +289,17 @@ public class RegisterView extends javax.swing.JFrame {
 
     // codigos acima gerados pela IDE
 
-    private DefaultTableModel createTableModal(){
-        DefaultTableModel model = new DefaultTableModel() {
-            boolean[] canEdit = new boolean [] {
-                    false, true, true, true
-            };
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        };
-        model.setColumnIdentifiers(new String[]{"ID", "Name", "Email", "Sexo"});
-        return model;
-    }
-
-
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new MainView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+
+    /* ------------- SAVE ---------------- */
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
        try {
-           String name = textName.getText();
-           String email = textEmail.getText();
-           String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
-           User user = new User(Generate.id(), name, email, Gender.valueOf(sex.toUpperCase()));
-           validateFields(user);
+           User user = ViewUtil.getUser(textName, textEmail, genderBox);
+           ViewUtil.validateFields(user);
            addUserToTable(user);
            clearValues();
        }catch (IllegalArgumentException e){
@@ -317,6 +308,26 @@ public class RegisterView extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    /* ------------- UPDATE ---------------- */
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+        int row = userTable.getSelectedRow();
+        boolean onlyOneSelected = row == 1;
+        if(onlyOneSelected){
+            Long id = Long.valueOf(userTable.getModel().getValueAt(row, 0).toString());
+            String name = textName.getText();
+            String email = textEmail.getText();
+            String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
+            User user = new User(id, name, email, Gender.valueOf(sex.toUpperCase()));
+
+            model.setValueAt(name, userTable.getSelectedRow(), 1);
+            model.setValueAt(email, userTable.getSelectedRow(), 2);
+            model.setValueAt(sex, userTable.getSelectedRow(), 3);
+            userService.update(user);
+        }
+    }
+
+    /* ------------- DELETE ---------------- */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = userTable.getSelectedRow();
         try {
@@ -330,25 +341,24 @@ public class RegisterView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
+        int row = userTable.getSelectedRow();
+        textName.setText(userTable.getModel().getValueAt(row, 1).toString());
+        textEmail.setText(userTable.getModel().getValueAt(row, 2).toString());
+        Gender genderSelected = Gender.valueOf(userTable.getModel().getValueAt(row, 3).toString());
+        genderBox.setSelectedIndex(genderSelected.getCode());
+    }//GEN-LAST:event_userTableMouseClicked
 
     private void addUserToTable(User user) {
-        userService.add(user);
+        userService.save(user);
         updateTable();
     }
 
     private void updateTable() {
-        model = createTableModal();
+        model = ViewUtil.createTableModal();
         UserService.getAll().forEach(x -> model.addRow(new Object[]{x.getId(), x.getName(), x.getEmail(), x.getGender()}));
         userTable.setModel(model);
-    }
-
-    private void validateFields(User user){
-        Assert.notNull(user.getName(), "Nome");
-        Assert.notNull(user.getEmail(), "Email");
-        Assert.notNull(user.getGender().toString(), "Sexo");
     }
 
     private void clearValues(){
@@ -356,7 +366,6 @@ public class RegisterView extends javax.swing.JFrame {
         this.textEmail.setText("");
         this.genderBox.setSelectedIndex(0);
     }
-
 
     /**
      * @param args the command line arguments
