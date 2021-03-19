@@ -341,9 +341,10 @@ public class RegisterView extends javax.swing.JFrame {
     /* ------------- UPDATE ---------------- */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) userTable.getModel();
-        int row = userTable.getSelectedRow();
-        boolean onlyOneSelected = row == 1;
+        int rowCount = userTable.getSelectedRowCount();
+        boolean onlyOneSelected = rowCount == 1;
         if(onlyOneSelected){
+            int row = userTable.getSelectedRow();
             Long id = Long.valueOf(userTable.getModel().getValueAt(row, 0).toString());
             String name = textName.getText();
             String email = textEmail.getText();
