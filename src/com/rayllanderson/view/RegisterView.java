@@ -8,12 +8,9 @@ package com.rayllanderson.view;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.Gender;
 import com.rayllanderson.model.service.UserService;
-import com.rayllanderson.model.utils.Assert;
-import com.rayllanderson.model.utils.Generate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.View;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 
@@ -71,6 +68,7 @@ public class RegisterView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Usuários");
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -279,7 +277,7 @@ public class RegisterView extends javax.swing.JFrame {
         jMenu1.add(help);
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sair-menu-2.png"))); // NOI18N
-        jMenuItem1.setText("Sair");
+        jMenuItem1.setText("Logout");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -322,7 +320,8 @@ public class RegisterView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        System.exit(0);
+        new ViewLogin().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /* ------------- SAVE ---------------- */
