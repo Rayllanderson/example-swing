@@ -14,7 +14,8 @@ public class DataBaseTest {
     private static UserDao userDao = new UserDao();
 
     public static void main(String[] args) throws SQLException, ParseException {
-        saveUser();
+//        saveUser();
+        findByCpf();
     }
 
     public static void saveUser() throws ParseException {
@@ -26,5 +27,10 @@ public class DataBaseTest {
         user.setPerfil(Perfil.AUXILIAR);
         user.setActive(true);
         userDao.save(user);
+    }
+
+    public static void findByCpf(){
+        User user = userDao.findByCpf(734420109);
+        System.out.println(user);
     }
 }
