@@ -16,15 +16,16 @@ public class DataBaseTest {
     public static void main(String[] args) throws SQLException, ParseException {
 //        saveUser();
         findByCpf();
+        findALL();
     }
 
     public static void saveUser() throws ParseException {
         User user = new User();
-        user.setCpf(05361456213);
-        user.setName("João");
-        user.setEmail("joao@email.com");
-        user.setBirthdate(sdf.parse("20-03-2021"));
-        user.setPerfil(Perfil.AUXILIAR);
+        user.setCpf(05361456244);
+        user.setName("João Lucas Costa Silva");
+        user.setEmail("jooooao@email.com");
+        user.setBirthdate(sdf.parse("20-03-1941"));
+        user.setPerfil(Perfil.PREPOSTO);
         user.setActive(true);
         userDao.save(user);
     }
@@ -32,5 +33,9 @@ public class DataBaseTest {
     public static void findByCpf(){
         User user = userDao.findByCpf(734420109);
         System.out.println(user);
+    }
+
+    public static void findALL(){
+        userDao.findAll().forEach(System.out::println);
     }
 }

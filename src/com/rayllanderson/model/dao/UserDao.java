@@ -7,6 +7,8 @@ import com.rayllanderson.model.entities.enums.Perfil;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDao {
 
@@ -22,26 +24,38 @@ public class UserDao {
             st.executeUpdate();
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        } finally {
-            DB.closeConnection();
         }
     }
 
-    public User findByCpf(Integer cpf){
+    public User findByCpf(Integer cpf) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("select * from users where cpf = " + cpf);
             rs = st.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return instantiateUser(rs);
             }
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        } finally {
-            DB.closeConnection();
         }
         return null;
+    }
+
+    public List<User> findAll() {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        List<User> users = new ArrayList<>();
+        try {
+            st = conn.prepareStatement("select * from users");
+            rs = st.executeQuery();
+            while (rs.next()) {
+                users.add(instantiateUser(rs));
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
     }
 
     private void insertUser(User user, PreparedStatement st) throws SQLException {
