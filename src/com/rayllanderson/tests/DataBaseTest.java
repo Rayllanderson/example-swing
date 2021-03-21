@@ -15,7 +15,7 @@ public class DataBaseTest {
 
     public static void main(String[] args) throws SQLException, ParseException {
         //734420109
-//        saveUser();
+        saveUser();
 //        findByCpf();
 //        System.out.println("------------------------");
 //        findALL();
@@ -27,7 +27,7 @@ public class DataBaseTest {
 
     public static void saveUser() throws ParseException {
         User user = new User();
-        user.setCpf(05361456244);
+        user.setCpf("05361456244");
         user.setName("João Lucas Costa Silva");
         user.setEmail("jooooao@email.com");
         user.setBirthdate(sdf.parse("20-03-1941"));
@@ -37,7 +37,7 @@ public class DataBaseTest {
     }
 
     public static void findByCpf(){
-        User user = userDao.findByCpf(05361456244);
+        User user = userDao.findByCpf("05361456244");
         System.out.println(user);
     }
 
@@ -46,21 +46,21 @@ public class DataBaseTest {
     }
 
     public static void deleteByCpf(){
-        userDao.deleteByCpf(05361456244);
+        userDao.deleteByCpf("05361456244");
     }
 
     public static void updateUser() throws ParseException {
-        User oldUser = userDao.findByCpf(734420108);
+        User oldUser = userDao.findByCpf("734420108");
         System.out.println(oldUser.getName().equals("João Lucas Costa Silva")); //nome antigo
         User user = new User();
-        user.setCpf(734420108);
+        user.setCpf("734420108");
         user.setName("João upgradado Costa Silva");
         user.setEmail("joao242424242424@email.com");
         user.setBirthdate(sdf.parse("20-03-1941"));
         user.setPerfil(Perfil.PREPOSTO);
         user.setActive(false);
         userDao.update(user);
-        User newUser = userDao.findByCpf(734420108);
+        User newUser = userDao.findByCpf("734420108");
         System.out.println(newUser.getName().equals("João upgradado Costa Silva")); //novo nome
     }
 

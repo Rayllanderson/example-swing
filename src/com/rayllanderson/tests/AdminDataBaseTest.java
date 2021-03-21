@@ -11,7 +11,7 @@ public class AdminDataBaseTest {
     private static AdminDao adminDao = new AdminDao();
 
     public static void main(String[] args) throws ParseException {
-//        register();
+        register();
 //        findById(); ok
 //        findALL(); ok
 //        deleteById();

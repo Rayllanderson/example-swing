@@ -33,18 +33,18 @@ public class UserDao {
             st = conn.prepareStatement("update users set cpf = ?, name = ?, birthdate = ?, email = ?, active = ?" +
                     ", perfil_id = ? where cpf = ?");
             insertUser(user, st);
-            st.setInt(7, user.getCpf());
+            st.setString(7, user.getCpf());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         }
     }
 
-    public User findByCpf(Integer cpf) {
+    public User findByCpf(String cpf) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("select * from users where cpf = " + cpf);
+            st = conn.prepareStatement("select * from users where cpf = '" + cpf + "'");
             rs = st.executeQuery();
             if (rs.next()) {
                 return instantiateUser(rs);
@@ -71,11 +71,11 @@ public class UserDao {
         }
     }
 
-    public User deleteByCpf(Integer cpf) {
+    public User deleteByCpf(String cpf) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("delete from users where cpf = " + cpf);
+            st = conn.prepareStatement("delete from users where cpf = '" + cpf + "'");
             int row = st.executeUpdate();
             if (row == 0) {
                 throw new DbException("Ops, ocorreu um erro. Id não existe.");
@@ -87,7 +87,7 @@ public class UserDao {
     }
 
     private void insertUser(User user, PreparedStatement st) throws SQLException {
-        st.setInt(1, user.getCpf());
+        st.setString(1, user.getCpf());
         st.setString(2, user.getName());
         st.setDate(3, new Date(user.getBirthdate().getTime()));
         st.setString(4, user.getEmail());
@@ -97,7 +97,7 @@ public class UserDao {
 
     private User instantiateUser(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setCpf(rs.getInt("cpf"));
+        user.setCpf(rs.getString("cpf"));
         user.setName(rs.getString("name"));
         user.setEmail(rs.getString("email"));
         user.setBirthdate(rs.getDate("birthdate"));

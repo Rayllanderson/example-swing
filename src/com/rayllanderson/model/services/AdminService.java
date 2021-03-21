@@ -1,6 +1,6 @@
 package com.rayllanderson.model.services;
 
-import com.rayllanderson.model.dao.exceptions.UsernameExistsException;
+import com.rayllanderson.model.dao.exceptions.ObjectExistsException;
 import com.rayllanderson.model.dao.impl.AdminDao;
 import com.rayllanderson.model.dao.utils.Assert;
 import com.rayllanderson.model.entities.Admin;
@@ -15,7 +15,7 @@ public class AdminService {
         dao = new AdminDao();
     }
 
-    public void register(Admin admin) throws UsernameExistsException {
+    public void register(Admin admin) throws ObjectExistsException {
         Assert.usernameNotExists(admin.getUsername());
         dao.save(admin);
     }

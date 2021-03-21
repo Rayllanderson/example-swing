@@ -9,7 +9,7 @@ import java.util.Objects;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer cpf;
+    private String cpf;
     private String name;
     private String email;
     private Date birthdate;
@@ -20,7 +20,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer cpf, String name, String email, Date birthdate, Perfil perfil, boolean active) {
+    public User(String cpf, String name, String email, Date birthdate, Perfil perfil, boolean active) {
         this.cpf = cpf;
         this.name = name;
         this.email = email;
@@ -29,11 +29,11 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

@@ -1,6 +1,6 @@
 package com.rayllanderson.model.dao.impl;
 
-import com.rayllanderson.model.dao.exceptions.UsernameExistsException;
+import com.rayllanderson.model.dao.exceptions.ObjectExistsException;
 import com.rayllanderson.model.dao.db.DB;
 import com.rayllanderson.model.dao.exceptions.DbException;
 import com.rayllanderson.model.entities.Admin;
@@ -17,7 +17,7 @@ public class AdminDao {
 
     private Connection conn = DB.getConnection();
 
-    public void save(Admin admin) throws UsernameExistsException {
+    public void save(Admin admin) throws ObjectExistsException {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement("insert into admins (username, password) values (?, ?);");
