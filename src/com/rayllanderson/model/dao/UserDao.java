@@ -58,6 +58,21 @@ public class UserDao {
         }
     }
 
+    public User deleteByCpf(Integer cpf) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("delete from users where cpf = " + cpf);
+            int row = st.executeUpdate();
+            if (row == 0) {
+                throw new DbException("Ops, ocorreu um erro inesperado. Não conseguimos deletar.");
+            }
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        return null;
+    }
+
     private void insertUser(User user, PreparedStatement st) throws SQLException {
         st.setInt(1, user.getCpf());
         st.setString(2, user.getName());

@@ -16,7 +16,11 @@ public class DataBaseTest {
     public static void main(String[] args) throws SQLException, ParseException {
 //        saveUser();
         findByCpf();
+        System.out.println("------------------------");
         findALL();
+        System.out.println("------------------------");
+        deleteByCpf();
+        findByCpf();
     }
 
     public static void saveUser() throws ParseException {
@@ -31,11 +35,15 @@ public class DataBaseTest {
     }
 
     public static void findByCpf(){
-        User user = userDao.findByCpf(734420109);
+        User user = userDao.findByCpf(05361456244);
         System.out.println(user);
     }
 
     public static void findALL(){
         userDao.findAll().forEach(System.out::println);
+    }
+
+    public static void deleteByCpf(){
+        userDao.deleteByCpf(05361456244);
     }
 }
