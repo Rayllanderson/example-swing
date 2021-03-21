@@ -15,9 +15,10 @@ import java.util.Objects;
 public class ViewUtil {
 
     public static void validateFields(User user){
+        Assert.cpfIsValid(user.getCpf());
         Assert.notNull(user.getName(), "Nome");
         Assert.notNull(user.getEmail(), "Email");
-        Assert.notNull(user.getBirthdate().toString(), "Data de nascimento");
+        Assert.notNull(user.getBirthdate(), "Data de nascimento");
         Assert.notNull(user.getPerfil(), "Perfil");
     }
 
