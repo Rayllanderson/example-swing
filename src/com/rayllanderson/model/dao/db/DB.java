@@ -1,5 +1,7 @@
 package com.rayllanderson.model.dao.db;
 
+import com.rayllanderson.model.dao.exceptions.DbException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

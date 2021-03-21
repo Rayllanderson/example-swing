@@ -1,7 +1,7 @@
-package com.rayllanderson.model.dao;
+package com.rayllanderson.model.dao.impl;
 
 import com.rayllanderson.model.dao.db.DB;
-import com.rayllanderson.model.dao.db.DbException;
+import com.rayllanderson.model.dao.exceptions.DbException;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.Perfil;
 
@@ -78,7 +78,7 @@ public class UserDao {
             st = conn.prepareStatement("delete from users where cpf = " + cpf);
             int row = st.executeUpdate();
             if (row == 0) {
-                throw new DbException("Ops, ocorreu um erro inesperado. Não conseguimos deletar.");
+                throw new DbException("Ops, ocorreu um erro. Id não existe.");
             }
         } catch (SQLException e) {
             throw new DbException(e.getMessage());

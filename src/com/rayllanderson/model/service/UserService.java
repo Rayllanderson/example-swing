@@ -1,7 +1,6 @@
 package com.rayllanderson.model.service;
 
 import com.rayllanderson.model.dao.db.DB;
-import com.rayllanderson.model.dao.db.DbException;
 import com.rayllanderson.model.entities.User;
 
 import java.sql.Connection;

@@ -1,6 +1,6 @@
 package com.rayllanderson.tests;
 
-import com.rayllanderson.model.dao.UserDao;
+import com.rayllanderson.model.dao.impl.UserDao;
 import com.rayllanderson.model.entities.User;
 import com.rayllanderson.model.entities.enums.Perfil;
 
@@ -22,7 +22,7 @@ public class DataBaseTest {
 //        System.out.println("------------------------");
 //        deleteByCpf();
 //        findByCpf(); //must be null
-        updateUser();
+//        updateUser();
     }
 
     public static void saveUser() throws ParseException {
@@ -63,4 +63,6 @@ public class DataBaseTest {
         User newUser = userDao.findByCpf(734420108);
         System.out.println(newUser.getName().equals("João upgradado Costa Silva")); //novo nome
     }
+
+
 }
