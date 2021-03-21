@@ -1,4 +1,4 @@
-package com.rayllanderson.model.dao;
+package com.rayllanderson.model.dao.db;
 
 public class DbException extends RuntimeException{
 

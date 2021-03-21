@@ -1,28 +1,28 @@
 package com.rayllanderson.model.service;
 
+import com.rayllanderson.model.dao.db.DB;
+import com.rayllanderson.model.dao.db.DbException;
 import com.rayllanderson.model.entities.User;
 
-import java.util.ArrayList;
+import java.sql.Connection;
 import java.util.List;
 
 public class UserService {
 
-    private static List<User> users = new ArrayList<>();
+    private Connection conn = DB.getConnection();
 
     public void save(User user){
-        users.add(user);
     }
 
     public static List<User> getAll(){
-        return users;
+        return null;
     }
 
     public boolean deleteById(Long id){
-        return users.removeIf(u -> u.getId().equals(id));
+        return false;
     }
 
     public void update(User user) {
-        deleteById(user.getId());
         this.save(user);
     }
 }

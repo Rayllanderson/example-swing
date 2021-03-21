@@ -1,7 +1,7 @@
 package com.rayllanderson.view;
 
 import com.rayllanderson.model.entities.User;
-import com.rayllanderson.model.entities.enums.Gender;
+import com.rayllanderson.model.entities.enums.Perfil;
 import com.rayllanderson.model.utils.Assert;
 import com.rayllanderson.model.utils.Generate;
 
@@ -15,13 +15,13 @@ public class ViewUtil {
         String name = textName.getText();
         String email = textEmail.getText();
         String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
-        return new User(Generate.id(), name, email, Gender.valueOf(sex.toUpperCase()));
+        return new User();
     }
 
     public static void validateFields(User user){
         Assert.notNull(user.getName(), "Nome");
         Assert.notNull(user.getEmail(), "Email");
-        Assert.notNull(user.getGender().toString(), "Sexo");
+//        Assert.notNull(user.getGender().toString(), "Sexo");
     }
 
     public static DefaultTableModel createTableModal(){

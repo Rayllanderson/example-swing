@@ -1,39 +1,39 @@
 package com.rayllanderson.model.entities;
 
-import com.rayllanderson.model.entities.enums.Gender;
+import com.rayllanderson.model.entities.enums.Perfil;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public class User implements Serializable {
 
-    private Long id;
+    private Integer cpf;
     private String name;
     private String email;
-    private Gender gender;
+    private Date birthdate;
+    private Perfil perfil;
+    private boolean active;
+
 
     public User() {
     }
 
-    public User(String name, String email, Gender gender) {
+    public User(Integer cpf, String name, String email, Date birthdate, Perfil perfil, boolean active) {
+        this.cpf = cpf;
         this.name = name;
         this.email = email;
-        this.gender = gender;
+        this.birthdate = birthdate;
+        this.perfil = perfil;
+        this.active = active;
     }
 
-    public User(Long id, String name, String email, Gender gender) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
+    public Integer getCpf() {
+        return cpf;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setCpf(Integer cpf) {
+        this.cpf = cpf;
     }
 
     public String getName() {
@@ -52,12 +52,20 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Gender getGender() {
-        return gender;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override
@@ -67,16 +75,19 @@ public class User implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
         User user = (User) o;
-        return id.equals(user.id);
+        return cpf.equals(user.cpf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(cpf);
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "name='" + name + '\'' + ", email='" + email + '\'' + '}';
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

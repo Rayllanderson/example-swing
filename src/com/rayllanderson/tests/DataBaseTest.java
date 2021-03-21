@@ -1,29 +1,30 @@
 package com.rayllanderson.tests;
 
-import com.rayllanderson.model.dao.DB;
+import com.rayllanderson.model.dao.UserDao;
+import com.rayllanderson.model.entities.User;
+import com.rayllanderson.model.entities.enums.Perfil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DataBaseTest {
 
-    public static void main(String[] args) throws SQLException {
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    private static UserDao userDao = new UserDao();
 
-        Connection conn = DB.getConnection();
+    public static void main(String[] args) throws SQLException, ParseException {
+        saveUser();
+    }
 
-        Statement st = conn.createStatement();
-
-        String sql = "SELECT * FROM perfils ";
-
-        ResultSet rs = st.executeQuery(sql);
-
-        while (rs.next()) {
-            System.out.print(rs.getLong("id") + " - ");
-            System.out.println(rs.getString("name"));
-        }
-
-
+    public static void saveUser() throws ParseException {
+        User user = new User();
+        user.setCpf(05361456213);
+        user.setName("João");
+        user.setEmail("joao@email.com");
+        user.setBirthdate(sdf.parse("20-03-2021"));
+        user.setPerfil(Perfil.AUXILIAR);
+        user.setActive(true);
+        userDao.save(user);
     }
 }

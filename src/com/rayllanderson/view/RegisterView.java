@@ -6,7 +6,7 @@
 package com.rayllanderson.view;
 
 import com.rayllanderson.model.entities.User;
-import com.rayllanderson.model.entities.enums.Gender;
+import com.rayllanderson.model.entities.enums.Perfil;
 import com.rayllanderson.model.service.UserService;
 
 import javax.swing.*;
@@ -348,12 +348,12 @@ public class RegisterView extends javax.swing.JFrame {
             String name = textName.getText();
             String email = textEmail.getText();
             String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
-            User user = new User(id, name, email, Gender.valueOf(sex.toUpperCase()));
+//            User user = new User(id, name, email, Gender.valueOf(sex.toUpperCase()));
 
             model.setValueAt(name, userTable.getSelectedRow(), 1);
             model.setValueAt(email, userTable.getSelectedRow(), 2);
             model.setValueAt(sex, userTable.getSelectedRow(), 3);
-            userService.update(user);
+//            userService.update(user);
         }
     }
 
@@ -376,8 +376,8 @@ public class RegisterView extends javax.swing.JFrame {
         int row = userTable.getSelectedRow();
         textName.setText(userTable.getModel().getValueAt(row, 1).toString());
         textEmail.setText(userTable.getModel().getValueAt(row, 2).toString());
-        Gender genderSelected = Gender.valueOf(userTable.getModel().getValueAt(row, 3).toString());
-        genderBox.setSelectedIndex(genderSelected.getCode());
+//        Gender genderSelected = Gender.valueOf(userTable.getModel().getValueAt(row, 3).toString());
+//        genderBox.setSelectedIndex(genderSelected.getCode());
     }//GEN-LAST:event_userTableMouseClicked
 
     private void helpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpActionPerformed
@@ -391,7 +391,7 @@ public class RegisterView extends javax.swing.JFrame {
 
     private void updateTable() {
         model = ViewUtil.createTableModal();
-        UserService.getAll().forEach(x -> model.addRow(new Object[]{x.getId(), x.getName(), x.getEmail(), x.getGender()}));
+       // UserService.getAll().forEach(x -> model.addRow(new Object[]{x.getId(), x.getName(), x.getEmail(), x.getGender()}));
         userTable.setModel(model);
     }
 
