@@ -27,6 +27,19 @@ public class UserDao {
         }
     }
 
+    public void update(User user){
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("update users set cpf = ?, name = ?, birthdate = ?, email = ?, active = ?" +
+                    ", perfil_id = ? where cpf = ?");
+            insertUser(user, st);
+            st.setInt(7, user.getCpf());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
     public User findByCpf(Integer cpf) {
         PreparedStatement st = null;
         ResultSet rs = null;
