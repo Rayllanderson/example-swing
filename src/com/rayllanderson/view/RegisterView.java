@@ -6,8 +6,7 @@
 package com.rayllanderson.view;
 
 import com.rayllanderson.model.entities.User;
-import com.rayllanderson.model.entities.enums.Perfil;
-import com.rayllanderson.model.service.UserService;
+import com.rayllanderson.model.services.UserService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -362,7 +361,7 @@ public class RegisterView extends javax.swing.JFrame {
         int row = userTable.getSelectedRow();
         try {
             Long id = Long.valueOf(userTable.getModel().getValueAt(row, 0).toString());
-            if (userService.deleteById(id))
+            if (userService.deleteByCpf(1))
                 updateTable();
             else
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover", "Error", JOptionPane.ERROR_MESSAGE);
