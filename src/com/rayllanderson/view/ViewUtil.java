@@ -1,27 +1,24 @@
 package com.rayllanderson.view;
 
 import com.rayllanderson.model.entities.User;
-import com.rayllanderson.model.entities.enums.Gender;
+import com.rayllanderson.model.entities.enums.Perfil;
 import com.rayllanderson.model.utils.Assert;
 import com.rayllanderson.model.utils.Generate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class ViewUtil {
 
-    public static User getUser(JTextField textName, JTextField textEmail, JComboBox<String> genderBox){
-        String name = textName.getText();
-        String email = textEmail.getText();
-        String sex = Objects.requireNonNull(genderBox.getSelectedItem()).toString();
-        return new User(Generate.id(), name, email, Gender.valueOf(sex.toUpperCase()));
-    }
-
     public static void validateFields(User user){
         Assert.notNull(user.getName(), "Nome");
         Assert.notNull(user.getEmail(), "Email");
-        Assert.notNull(user.getGender().toString(), "Sexo");
+        Assert.notNull(user.getBirthdate().toString(), "Data de nascimento");
+        Assert.notNull(user.getPerfil(), "Perfil");
     }
 
     public static DefaultTableModel createTableModal(){
@@ -33,7 +30,7 @@ public class ViewUtil {
                 return canEdit [columnIndex];
             }
         };
-        model.setColumnIdentifiers(new String[]{"ID", "Name", "Email", "Sexo"});
+        model.setColumnIdentifiers(new String[]{"CPF", "Nome", "Email", "Perfil"});
         return model;
     }
 

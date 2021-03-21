@@ -1,11 +1,11 @@
 package com.rayllanderson.model.entities.enums;
 
-public enum Gender {
-    MASCULINO(0), FEMININO(1);
+public enum Perfil {
+    AUXILIAR(0), PREPOSTO(1);
 
     private int code;
 
-    private Gender(int code){
+    private Perfil(int code){
         this.code = code;
     }
 
@@ -13,8 +13,8 @@ public enum Gender {
         return code;
     }
 
-    public static Gender valueOf (int code){
-        for (Gender g: Gender.values()) {
+    public static Perfil valueOf (int code){
+        for (Perfil g: Perfil.values()) {
             if (g.getCode() == code) {
                 return g;
             }
